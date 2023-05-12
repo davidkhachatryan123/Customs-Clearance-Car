@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+  proxy:
+    build:
+      context: Proxy
+      dockerfile: Dockerfile
+    depends_on:
+      - client
+      - api
+
+  client:
+    build:
+      context: CustomsClearanceCar
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: CustomsClearanceCar-API
+      dockerfile: CustomsClearanceCar-API/Dockerfile
+    links:
+        - db
+        - syncdb-workerservice
+    depends_on:
+        - db
+        - syncdb-workerservice
+
+  syncdb-workerservice:
+    image: ${DOCKER_REGISTRY-}syncdbworkerservice
+    build:
+      context: CustomsClearanceCar-API
+      dockerfile: SyncDB-WithExcellData/Dockerfile
+    links:
+        - db
+    depends_on:
+        - db
+  
+  db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"

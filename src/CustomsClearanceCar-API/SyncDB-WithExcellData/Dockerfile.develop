@@ -1,0 +1,15 @@
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+
+ARG BUILD_CONFIGURATION=Debug
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true
+
+WORKDIR /src
+COPY ["SyncDB-WithExcellData/SyncDB-WithExcellData.csproj", "SyncDB-WithExcellData/"]
+RUN dotnet restore "SyncDB-WithExcellData/SyncDB-WithExcellData.csproj"
+
+COPY . .
+WORKDIR "/src/SyncDB-WithExcellData"
+RUN dotnet build "SyncDB-WithExcellData.csproj" -c $BUILD_CONFIGURATION -o /app
+
+WORKDIR "/app"
+ENTRYPOINT ["dotnet", "SyncDB-WithExcellData.dll"]

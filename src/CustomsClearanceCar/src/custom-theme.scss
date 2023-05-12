@@ -1,0 +1,84 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+/* For use in src/lib/core/theming/_palette.scss */
+$custom-palette-primary: (
+  50 : #edf5ea,
+  100 : #d3e7ca,
+  200 : #b6d7a6,
+  300 : #98c782,
+  400 : #82bb68,
+  500 : #6caf4d,
+  600 : #64a846,
+  700 : #599f3d,
+  800 : #4f9634,
+  900 : #3d8625,
+  A100 : #d3ffc6,
+  A200 : #acff93,
+  A400 : #84ff60,
+  A700 : #70ff47,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$custom-palette-accent: (
+  50 : #e7eaed,
+  100 : #c2cad2,
+  200 : #9aa7b4,
+  300 : #728395,
+  400 : #53697f,
+  500 : #354e68,
+  600 : #304760,
+  700 : #283d55,
+  800 : #22354b,
+  900 : #16253a,
+  A100 : #7aadff,
+  A200 : #478eff,
+  A400 : #146fff,
+  A700 : #0060f9,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #ffffff,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #ffffff,
+      A700 : #ffffff,
+  )
+);
+
+$material-primary: mat.define-palette($custom-palette-primary);
+$material-accent:  mat.define-palette($custom-palette-accent, 500);
+
+$material-warn:    mat.define-palette(mat.$red-palette);
+
+$material-theme: mat.define-light-theme((
+  color: (
+    primary: $material-primary,
+    accent: $material-accent,
+    warn: $material-warn,
+  )
+));
+
+@include mat.all-component-themes($material-theme);

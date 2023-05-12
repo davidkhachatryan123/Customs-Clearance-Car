@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  customsclearancecar-api:
+    image: ${DOCKER_REGISTRY-}customsclearancecarapi
+    build:
+      context: .
+      dockerfile: CustomsClearanceCar-API/Dockerfile.develop
+    depends_on:
+        - db
+    links:
+        - db
+
+  syncdb-workerservice:
+    image: ${DOCKER_REGISTRY-}syncdbworkerservice
+    build:
+      context: .
+      dockerfile: SyncDB-WithExcellData/Dockerfile.develop
+    depends_on:
+        - db
+        - customsclearancecar-api
+    links:
+        - db
+        - customsclearancecar-api
+  
+  db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"

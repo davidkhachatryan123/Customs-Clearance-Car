@@ -1,0 +1,25 @@
+mat-form-field {
+  width: 300px;
+  margin: 0 15px;
+}
+
+.form-group, .submit, .results, .results > .col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.transparent-layer {
+  opacity: 0;
+}
+
+.results > .col {
+  width: 50%;
+}
+
+.results > .col h1 {
+  color: var(--color-primary);
+  font-size: 30px;
+  font-weight: bold;
+}

@@ -1,0 +1,12 @@
+**/node_modules/
+**/dist
+**/.angular
+**/.vscode
+LICENSE
+README.md
+.git
+.env
+.aws
+npm-debug.log
+.coverage
+.coverage.*

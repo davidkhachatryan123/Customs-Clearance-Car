@@ -1,0 +1,122 @@
+<app-layout title="Калькулятор растаможки" subtitle="v1.0.0">
+
+  <form #carFormView [formGroup]="carForm" novalidate (ngSubmit)="submit()">
+    <mat-card-content>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Марка</mat-label>
+  
+          <input #markInput
+                 type="text"
+                 matInput
+                 formControlName="mark"
+                 required
+                 (focus)="onInputFocus($event)"
+                 [matAutocomplete]="autoMark">
+  
+          <mat-autocomplete #autoMark="matAutocomplete">
+            <mat-optgroup *ngFor="let group of marksAutoGroupOptions | async" [label]="group.letter">
+              <mat-option *ngFor="let value of group.values" [value]="value">
+                {{value}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-autocomplete>
+
+          <button *ngIf="markInput.value" matSuffix mat-icon-button aria-label="Clear"
+                  (click)="carForm.controls['mark'].patchValue('', { emitEvent: true }); $event.stopPropagation()"
+                  type="button">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Модель</mat-label>
+  
+          <input #modelInput
+                 type="text"
+                 matInput
+                 formControlName="model"
+                 (focus)="onInputFocus($event)"
+                 [matAutocomplete]="autoModel"
+                 [disableControl]="markInput.value">
+  
+          <mat-autocomplete #autoModel="matAutocomplete">
+            <mat-optgroup *ngFor="let group of modelsAutoGroupOptions | async" [label]="group.letter">
+              <mat-option *ngFor="let value of group.values" [value]="value">
+                {{value}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-autocomplete>
+
+          <button *ngIf="modelInput.value" matSuffix mat-icon-button aria-label="Clear"
+                  (click)="carForm.controls['model'].patchValue('', { emitEvent: true }); $event.stopPropagation()"
+                  type="button">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Объем двиг.</mat-label>
+  
+          <input #engineCapacityInput
+                 type="text"
+                 matInput
+                 formControlName="engine_capacity"
+                 (focus)="onInputFocus($event)"
+                 [matAutocomplete]="autoEngine"
+                 [disableControl]="markInput.value">
+  
+          <mat-autocomplete #autoEngine="matAutocomplete">
+            <mat-option *ngFor="let option of engineCapacitysOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+
+          <button *ngIf="engineCapacityInput.value" matSuffix mat-icon-button aria-label="Clear"
+                  (click)="carForm.controls['engine_capacity'].patchValue('', { emitEvent: true }); $event.stopPropagation()"
+                  type="button">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Год</mat-label>
+  
+          <mat-select formControlName="year"
+                      [disableControl]="markInput.value">
+            <mat-option *ngFor="let year of allowedYears" [value]="year">{{year}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </mat-card-content>
+
+
+    <mat-card-actions class="submit">
+      <button type="submit" mat-raised-button color="primary">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Считать&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    </mat-card-actions>
+  </form>
+
+  <div #transparentLayer class="transparent-layer">
+    <div class="results" [@slideOpenClose]="resultState" (@slideOpenClose.done)="resultAnimationDone($event)">
+      <div class="col">
+        <img *ngIf="result !== 'Неизвестно'" #success
+              src="assets/success.gif" width="200" height="200">
+        <img *ngIf="result === 'Неизвестно'"
+              src="assets/error.gif" width="200" height="200">
+      </div>
+  
+      <div class="col">
+        <h1>{{'$ ' + result}}</h1>
+      </div>
+
+      <button mat-icon-button aria-label="refresh" color="warn" (click)="clearForm()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </div>
+  </div>
+
+</app-layout>
